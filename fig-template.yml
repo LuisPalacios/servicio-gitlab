@@ -1,0 +1,20 @@
+#
+#  Contenedor para gitlab community edition, basado en: http://doc.gitlab.com/omnibus/docker/
+#
+
+#   gitlab.tudominio.com
+#
+gitab:
+
+  image: gitlab/gitlab-ce:latest
+
+  ports:
+   - "80:80"
+   - "443:443"
+   - "22:22"
+
+  volumes:
+   - "/Apps/data/gitlab/config:/etc/gitlab"
+   - "/Apps/data/gitlab/logs:/var/log/gitlab"
+   - "/Apps/data/gitlab/data:/var/opt/gitlab"
+   
