@@ -62,7 +62,9 @@ En el fichero gitlab.rb
 
 ## Actualización
 
-Como decía en las notas rápidas, la primera vez que instalé GitLab lo hice con la versión que había en ese momento (8.4.3) pero dos semanas después sacaron la versión 8.5. ¿funcionaría la actualización? ¿sería tan sencillo como hacer un pull de la nueva imagen?. Esto es lo que hice: 
+Como decía en las notas rápidas, la primera vez que instalé GitLab lo hice con la versión que había en ese momento (8.4.3) pero dos semanas después sacaron la versión 8.5. ¿funcionaría la actualización? ¿sería tan sencillo como hacer un pull de la nueva imagen?. 
+
+A continuación encontrarás los pasos que he realizado para actualizar. He utilizado lo mismo para pasar a posteriores versiones, de forma secuencial he ido actualizando a la 8.6, 8.7, etc... 
 
 Parar el contenedor:
 
@@ -84,20 +86,24 @@ Pull de la nueva imagen:
 
     luis@aplicacionix /Apps/docker/servicio-gitlab $ docker pull gitlab/gitlab-ce:latest
 
+Rearranco la nueva imagen: 
 
-NOTA: Re-Arranqué el contendor pero fallaba. Con "docker logs xxxxx" vi que estaba intentando crear un fichero de log en el subdirectorio logs/reconfigure/... pero que dicho directorio NO existía, así que simplemente he creado dicho directorio antes de re-arrancar el contenedor.
+    luis@aplicacionix ~ $ cd /Apps/docker/servicio-gitlab
+    luis@aplicacionix /Apps/docker/servicio-gitlab $ fig up -d
+
+### ¿Qué pasa si falla?
+Pues tendrás que investigar caso por caso, a modo de ejemplo al actualizar a la versión 8.5 vi que fallaba por lo que utilicé el comando "docker logs xxxxxxxx" donde descubrí que intentaba crear un fichero de log en el subdirectorio logs/reconfigure/... y que dicho directorio NO existía, así que simplemente creé manualmente el directorio y listo... 
 
     cd Apps/data/gilab/logs
-    mkdir reconfigure
+    /Apps/data/gilab/logs $ mkdir reconfigure
+    /Apps/data/gilab/logs $ cd /Apps/docker/servicio-gitlab
+    /Apps/docker/servicio-gitlab $ fig up -d 
 
-Recrear el contenedor
-
-    luis@aplicacionix /Apps/docker/servicio-gitlab $ fig up -d 
+Tampoco está de más que mires el [repositorio](https://hub.docker.com/r/gitlab/gitlab-ce/) a ver si hay comentarios de otros usuarios. 
     
+### ¿Qué pasa con los datos?
 
-Tener en cuenta que ya existen los datos de la versión anterior, base de datos, etc. así que el container debe estar preparado (y lo está) para hacer las correspondientes actualizaciones.
+El propio contenedor tiene en cuenta la existencia de los datos de la versión anterior, base de datos, etc. por lo que se encarga de las correspondientes actualizaciones. No hay que hacer nada. Simplemente acceder de nuevo vía Web y deberías tener tu servicio disponible. 
+Quitando el tema del directorio "reconfigure" que tuve que crear a mano al migrar a la versión 8.5, el resto ha ido como la seda... Funciona perfectamente en las migraciones. 
 
-Quitando el tema del directorio "reconfigure" que tuve que crear a mano, el resto ha ido como la seda... Funciona perfectamente 
 
-
-  
