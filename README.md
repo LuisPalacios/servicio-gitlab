@@ -1,20 +1,20 @@
 # Introducción
 
 
-Este repositorio configura gitlab community edition, basado en el [proyecto GitLab](https://gitlab.com/gitlab-org/gitlab-ce/tree/master/docker) Community Edition.
+Este es el repositorio que he utilizado para crear un contenedor Docker con [GitLab Community Edition](https://gitlab.com/gitlab-org/gitlab-ce/tree/master/docker).
 
 
 # Instalación
 
-Utilizo el contenedor oficial [gitlab/gitlab-ce](https://hub.docker.com/r/gitlab/gitlab-ce/) y la [documentación oficial](https://hub.docker.com/r/gitlab/gitlab-ce/). En el fichero fig-template.yml tienes un ejemplo para la ejecución a través de fig.
+Utilizo el contenedor oficial [gitlab/gitlab-ce](https://hub.docker.com/r/gitlab/gitlab-ce/), en el fichero fig-template.yml tienes un ejemplo para la ejecución a través de fig.
 
 
 # Documentación
 
-Para poder ejecutar y configurar este contenedor recomiendo consultar la documentación oficial, aquí tienes algunos tips sobre cómo lo he utilizado en mi caso.
+Para poder ejecutar y configurar este contenedor recomiendo consultar la [documentación oficial](https://hub.docker.com/r/gitlab/gitlab-ce/), aquí dejo unos apuntes rápidos sobre mi instalación. 
 
 
-## Notas rápidas
+## Apuntes y notas
 
 
 Pull de la imagen
@@ -62,11 +62,11 @@ En el fichero gitlab.rb
 
 ## Actualización
 
-Como decía en las notas rápidas, la primera vez que instalé GitLab lo hice con la versión que había en ese momento (8.4.3) pero dos semanas después sacaron la versión 8.5. ¿funcionaría la actualización? ¿sería tan sencillo como hacer un pull de la nueva imagen?. 
+La primera vez que instalé GitLab lo hice con la versión que había en ese momento (8.4.3) pero dos semanas después sacaron la versión 8.5. ¿funcionaría la actualización? ¿sería tan sencillo como hacer un pull de la nueva imagen?. 
 
-A continuación encontrarás los pasos que he realizado para actualizar. He utilizado lo mismo para pasar a posteriores versiones, de forma secuencial he ido actualizando a la 8.6, 8.7, etc... 
+La respuesta es que sí, más abajo tienes los pasos que sigo cada vez que actualizo. He utilizado lo mismo para pasar a posteriores versiones, de forma secuencial he ido actualizando a la 8.6, 8.7, etc.
 
-Consulto el nombre de mi versión actual y me la apunto para usarla más adelante (en el ejemplo 8.7.5)
+Lo primero que hago es consultar el número de la versión actual y apuntármelo para usarlo luego, en este ejemplo estoy pasando de la versión 8.7.5 a la versión 8.10.5
 
     http://gitlab.midominio.com/help 
     Verás algo parecido a: GitLab Community Edition 8.7.5 0e8b7d8
@@ -81,14 +81,14 @@ Paro el contenedor:
 Hacer un backup de los datos (como root)
 
     luis@aplicacionix ~ # cd /
-    luis@aplicacionix ~ # tar cfz /share/DATOS_BACKUP/baul/Apps/2016-02-22.Apps_data_gitlab.tgz Apps/data/gitlab
+    luis@aplicacionix ~ # tar cfz /share/DATOS_BACKUP/baul/Apps/2016-08-15.Apps_data_gitlab.tgz Apps/data/gitlab
 
-Hacer una copia de la Imagen, lo que hago es etiquetarla y si la migración falle estrepitosamente tengo forma de volver a la imagen anterior con la que funcionaban (usando los datos del backup que acabo de hacer). Busco el repositorio gitlab/gitlab-ce y me apunto el ID de la imagen para luego etiquetarlo:
+Hacer una copia de la IMAGEN. En vez de copiarla lo que hago es etiquetarla y así me quedo con una copia :-). Si la migración falla estrepitosamente tengo forma de volver a la imagen anterior (8.7.5) con los datos del backup que acabo de hacer. Busco el repositorio gitlab/gitlab-ce y me apunto el ID de la imagen para luego etiquetarlo:
 
-    luis@aplicacionix $ docker images | grep gitlab 
+    luis@aplicacionix $ docker images | grep gitlab   (El ID será del tipo: 98dfe52bcfd2)
     luis@aplicacionix $ docker tag <ID> gitlab/gitlab-ce:8.7.5  (8.7.5, lo averigué en el primer paso)
     
-Eliminar el contenedor. Buscar el contenedor gitlab/gitlab-ce:latest, copiar el ID para usarlo a continuación
+Eliminar el CONTENEDOR. Buscar el contenedor gitlab/gitlab-ce:latest, copiar el ID para usarlo a continuación
 
     luis@aplicacionix $ docker ps -a | grep gitlab
     luis@aplicacionix $ docker rm <container_ID>
