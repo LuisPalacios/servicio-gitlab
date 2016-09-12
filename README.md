@@ -113,7 +113,7 @@ Comprueba que todo va perfecto, que puedes conectar, que reconoce todos tus repo
 
 ### ¿Qué pasa si falla?
 
-Tienes dos opciones. La primera es que no vaya nada y no consigas migrar. Restaura los datos antiguos, renombra de nuevo la imagen y vuelve a arrancar el servicio. Estás como estabas. 
+Tienes dos opciones. La primera es que no vaya nada y no consigas migrar. Restaura los datos antiguos, renombra la IMAGEN a la que le pusiste el TAG y vuelve a arrancar el servicio. Estás como estabas.  Mira en los foros, reporta el problema, investiga...
 
 La segunda opción es intentar arreglarlo, tendrás que investigar caso por caso, a modo de ejemplo al actualizar a la versión 8.5 vi que fallaba por lo que utilicé el comando "docker logs xxxxxxxx" donde descubrí que intentaba crear un fichero de log en el subdirectorio logs/reconfigure/... y que dicho directorio NO existía, así que simplemente creé manualmente el directorio y listo... 
 
